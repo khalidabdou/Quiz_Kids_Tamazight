@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">wallsticker</string>
+
+    <string name="banner_facebook_id">727614664650660_727614724650654</string>
+    <string name="native_facebook">727614664650660_727614714650655</string>>
+
+    <string name="label_image">Good Morning</string>
+    <string name="label_stickers">All Stickers</string>
+    <string name="label_quates">Quotes</string>
+    <string name="lable_rate">Rate</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lable_latest">Latest</string>
+    <string name="label_cat">Category</string>
+    <string name="msg_please_wait">Please wait</string>
+    <string name="saved_folder_name">Download</string>
+    <string name="share_text">More => </string>
+    <string name="store_prefix">https://play.google.com/store/apps/details?id=</string>
+    <string name="permission_required_text">1234</string>
+
+
+</resources>
