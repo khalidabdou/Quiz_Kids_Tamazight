@@ -27,7 +27,6 @@ import com.example.wallsticker.Utilities.Const
 import com.example.wallsticker.Utilities.FeedReaderContract
 import com.example.wallsticker.Utilities.ShareTask
 import com.example.wallsticker.Utilities.helper
-import kotlinx.android.synthetic.main.fragment_img_slider.*
 import java.io.File
 
 
@@ -57,7 +56,7 @@ class ImgSlider : Fragment(R.layout.fragment_img_slider) {
         super.onViewCreated(view, savedInstanceState)
 
         image = images[args.position]
-        imagePosition=args.position
+        imagePosition = args.position
         initView(view)
 
         val adapter = this.context?.let { ImagesSliderAdapter(it) }
@@ -99,7 +98,7 @@ class ImgSlider : Fragment(R.layout.fragment_img_slider) {
             downloadImage(Const.directoryUpload + image.image_upload)
         }
         btnShare.setOnClickListener {
-            ShareTask(context,null).execute(Const.directoryUpload + image.image_upload)
+            ShareTask(context, null).execute(Const.directoryUpload + image.image_upload)
         }
 
         btnFav.setOnClickListener {
@@ -116,25 +115,31 @@ class ImgSlider : Fragment(R.layout.fragment_img_slider) {
                 images[imagePosition!!].isfav = 1
                 btnFav.setImageDrawable(context?.getDrawable(R.drawable.ic_is_fav))
                 Toast.makeText(context, newRowId.toString(), Toast.LENGTH_LONG).show()
-            }
-            else{
+            } else {
 
                 val selection = "${BaseColumns._ID} like ?"
                 val selectionArgs = arrayOf(image.image_id.toString())
                 val deletedRows =
-                    db?.delete(FeedReaderContract.FeedEntryImage.TABLE_NAME, selection, selectionArgs)
+                    db?.delete(
+                        FeedReaderContract.FeedEntryImage.TABLE_NAME,
+                        selection,
+                        selectionArgs
+                    )
                 images[this!!.imagePosition!!].isfav = 0
                 btnFav.setImageDrawable(context?.getDrawable(R.drawable.ic_baseline_favorite_border_24))
-                Toast.makeText(context,deletedRows.toString(),Toast.LENGTH_LONG).show()
+                Toast.makeText(context, deletedRows.toString(), Toast.LENGTH_LONG).show()
             }
 
         }
         btnSharewtsp.setOnClickListener {
-            ShareTask(context,"com.whatsapp").execute(Const.directoryUpload + image.image_upload)
+            ShareTask(context, "com.whatsapp").execute(Const.directoryUpload + image.image_upload)
 
         }
         btnShareinsta.setOnClickListener {
-            ShareTask(context,"com.instagram.android").execute(Const.directoryUpload + image.image_upload)
+            ShareTask(
+                context,
+                "com.instagram.android"
+            ).execute(Const.directoryUpload + image.image_upload)
 
         }
 
@@ -211,7 +216,9 @@ class ImgSlider : Fragment(R.layout.fragment_img_slider) {
                 cursor.moveToFirst()
                 if (cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)) == DownloadManager.STATUS_SUCCESSFUL) {
                     downloading = false
-                    Toast.makeText(context, "msg", Toast.LENGTH_SHORT).show()
+
+                    //context.let {  Toast.makeText(it, "msg", Toast.LENGTH_SHORT).show() }
+
                 }
                 val status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS))
                 msg = statusMessage(url, directory, status)

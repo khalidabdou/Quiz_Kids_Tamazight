@@ -29,6 +29,7 @@ class FavoriteImages : Fragment(), ImageClickListener {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var nofav: LinearLayout
+
     val projection = arrayOf(BaseColumns._ID, FeedReaderContract.FeedEntryImage.COLUMN_NAME_IMAGE)
 
 
@@ -48,7 +49,7 @@ class FavoriteImages : Fragment(), ImageClickListener {
         nofav = view.findViewById(R.id.nofav)
         recyclerView = view.findViewById<RecyclerView>(R.id.fav_images_recycler_view)
         viewManager = GridLayoutManager(activity, 3)
-        viewAdapter = ImagesAdapter(this, Const.ImageTempFav)
+        viewAdapter = ImagesAdapter(this, Const.ImageTempFav, context)
         recyclerView.adapter = viewAdapter
         recyclerView.layoutManager = viewManager
         recyclerView.setHasFixedSize(true)

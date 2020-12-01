@@ -4,13 +4,8 @@
 
     <item
         android:id="@+id/rate"
-        android:title="@string/lable_rate"
         android:icon="@drawable/ic_rate"
-        app:showAsAction="always"
-        />
+        android:title="@string/lable_rate"
+        app:showAsAction="always" />
 
-    <item
-        android:id="@+id/ImagesFragment"
-        android:title="settings"
-        app:showAsAction="never" />
 </menu>

@@ -20,7 +20,6 @@ import com.example.wallsticker.Model.category
 import com.example.wallsticker.Model.image
 import com.example.wallsticker.R
 import com.example.wallsticker.Utilities.Const
-import kotlinx.android.synthetic.main.fragment_img_latest.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -53,16 +52,16 @@ class ImageByCategory : Fragment(), ImageClickListener {
             fetchImages()
         }
 
-        progressBar=view.findViewById(R.id.progress)
+        progressBar = view.findViewById(R.id.progress)
 
-        viewAdapter = ImagesAdapter(this, Const.ImagesByCatTemp)
+        viewAdapter = ImagesAdapter(this, Const.ImagesByCatTemp, context)
         recyclerView = view.findViewById<RecyclerView>(R.id.images_recycler_view)
         recyclerView.adapter = viewAdapter
         recyclerView.layoutManager = viewManager
         recyclerView.setHasFixedSize(true)
         addScrollerListener()
         if (Const.ImagesByCatTemp.size <= 0) {
-            refreshLayout.isRefreshing = true
+            refresh.isRefreshing = true
             fetchImages()
         }
 
@@ -71,11 +70,11 @@ class ImageByCategory : Fragment(), ImageClickListener {
 
     private fun fetchImages() {
 
-        ImagesApi().getImages(offset, "get_category_detail", args.CatId)
+        ImagesApi().getImages(offset, args.CatId)
             .enqueue(object : Callback<List<image>> {
                 override fun onFailure(call: Call<List<image>>, t: Throwable) {
                     refresh.isRefreshing = false
-                    Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
                 }
 
                 override fun onResponse(

@@ -1,10 +1,10 @@
 package com.example.wallsticker.fragments.quotes
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -21,33 +21,35 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.viewpager.widget.ViewPager
 import com.example.wallsticker.Adapters.QuotesSliderAdapter
+import com.example.wallsticker.Interfaces.IncrementServiceQuote
+import com.example.wallsticker.Model.quote
 import com.example.wallsticker.R
 import com.example.wallsticker.Utilities.Const
-import com.facebook.ads.Ad
-import com.facebook.ads.AdError
-import com.facebook.ads.AdListener
-import com.facebook.ads.NativeAdsManager
 import kotlinx.android.synthetic.main.fragment_quotes_slider.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-
 
 class QuotesSlider : Fragment() {
 
     val currentArg: QuotesSliderArgs by navArgs()
     private lateinit var viewpager: ViewPager
-    private lateinit var btnShare  : ImageView
-    private lateinit var btnShareinsta  : ImageView
-    private lateinit var btnSharewtsp  : ImageView
-    private lateinit var btnCopy  : ImageView
+    private lateinit var btnShare: ImageView
+    private lateinit var btnShareinsta: ImageView
+    private lateinit var btnSharewtsp: ImageView
+    private lateinit var btnCopy: ImageView
     private lateinit var quotesize: SeekBar
     private lateinit var screenshot: View
     private lateinit var navSliderQuotes: LinearLayout
-    private lateinit var bottom:LinearLayout
+    private lateinit var bottom: LinearLayout
     private var _xDelta = 0
+    private var quote: quote? = null
     private var _yDelta = 0
 
+    private lateinit var fontsButton: Array<TextView>
 
     val bagrounds: IntArray = intArrayOf(
         R.drawable.quotesalone,
@@ -66,6 +68,14 @@ class QuotesSlider : Fragment() {
     )
 
 
+    var arrayof = Const.quotesarrayof
+
+    var quotes: ArrayList<Any> =
+        if (arrayof == "latest") Const.QuotesTemp
+        else if (arrayof == "byCat") Const.QuotesByCat
+        else Const.QuotesTempFav
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -80,12 +90,12 @@ class QuotesSlider : Fragment() {
         init(view)
 
 
-        val adapter = context?.let { QuotesSliderAdapter(it, Const.QuotesTemp) }!!
+        val adapter = context?.let { QuotesSliderAdapter(it, quotes) }!!
 
         viewpager.adapter = adapter
 
-        if (currentArg.current==viewpager.currentItem)
-            viewpager.currentItem=currentArg.current+1
+        if (currentArg.current == viewpager.currentItem)
+            viewpager.currentItem = currentArg.current + 1
 
         val h = Handler(Looper.getMainLooper())
         val r: Runnable = object : Runnable {
@@ -109,8 +119,26 @@ class QuotesSlider : Fragment() {
             }
 
             override fun onPageSelected(position: Int) {
+                if (quotes[position] is quote) {
 
-                screenshot = viewpager.findViewWithTag("View" + position)
+                    screenshot = viewpager.findViewWithTag("View" + position)
+                    quote = quotes[position] as quote
+
+
+                    var incrementView = quote?.count_views?.plus(1)
+//                    IncrementViewQuote().incrementViews(quote?.id,incrementView).enqueue(object : Callback<Any> {
+//                        override fun onFailure(call: Call<Any>, t: Throwable) {
+//                            //Toast.makeText(context,t.message,Toast.LENGTH_LONG).show()
+//                        }
+//                        override fun onResponse(call: Call<Any>, response: Response<Any>) {
+//                            //Toast.makeText(context,"Response :${response}",Toast.LENGTH_LONG).show()
+//                        }
+//
+//                    })
+                    viewVisible()
+                } else {
+                    viewGone()
+                }
             }
         })
 
@@ -140,35 +168,31 @@ class QuotesSlider : Fragment() {
         layoutParams.rightMargin = -250
 
         btnShare.setOnClickListener {
-            btnShare.visibility = View.GONE
-            navSliderQuotes.visibility=View.GONE
+            viewGone()
             val bitmapscreen = takeScreenshotOfView(view, view.height, view.width)
             val uriImg = saveImage(bitmapscreen)
-            uriImg?.let { shareImageUri(it,null) }
-            btnShare.visibility = View.VISIBLE
-            navSliderQuotes.visibility=View.VISIBLE
+            uriImg?.let { shareImageUri(it, null) }
+            viewVisible()
         }
 
         btnSharewtsp.setOnClickListener {
-            bottom.visibility = View.GONE
-            navSliderQuotes.visibility=View.GONE
+            viewGone()
             val bitmapscreen = takeScreenshotOfView(view, view.height, view.width)
             val uriImg = saveImage(bitmapscreen)
-            uriImg?.let { shareImageUri(it,"com.whatsapp") }
-            bottom.visibility = View.VISIBLE
-            navSliderQuotes.visibility=View.VISIBLE
+            uriImg?.let { shareImageUri(it, "com.whatsapp") }
+            viewVisible()
         }
 
         btnShareinsta.setOnClickListener {
-
+            viewGone()
             val bitmapscreen = takeScreenshotOfView(view, view.height, view.width)
             val uriImg = saveImage(bitmapscreen)
-            uriImg?.let { shareImageUri(it,"com.instagram.android") }
-            ViewVisible()
+            uriImg?.let { shareImageUri(it, "com.instagram.android") }
+            viewVisible()
 
         }
 
-
+        //set image background
         img1.setOnClickListener {
             screenshot.findViewById<ImageView>(R.id.background_quote)
                 .setImageResource(bagrounds.get(0))
@@ -190,6 +214,7 @@ class QuotesSlider : Fragment() {
                 .setImageResource(bagrounds.get(4))
         }
 
+        //set color to text
         color1.setOnClickListener {
             context?.let { it1 ->
                 ContextCompat.getColor(
@@ -246,24 +271,40 @@ class QuotesSlider : Fragment() {
             }
         }
 
+        //set font family to text
+        fontsButton[0].setOnClickListener { setFont(0) }
+        fontsButton[1].setOnClickListener { setFont(1) }
+        fontsButton[2].setOnClickListener { setFont(2) }
+        fontsButton[3].setOnClickListener { setFont(3) }
 
     }
 
-    private fun ViewVisible() {
-        btnShare.visibility = View.VISIBLE
-        navSliderQuotes.visibility=View.VISIBLE
+    private fun viewVisible() {
+        bottom.visibility = View.VISIBLE
+        navSliderQuotes.visibility = View.VISIBLE
     }
 
-    private fun init(view: View){
+    private fun viewGone() {
+        bottom.visibility = View.GONE
+        navSliderQuotes.visibility = View.GONE
+    }
+
+    private fun init(view: View) {
         viewpager = view.findViewById(R.id.quotes_view_pager)
-
         quotesize = view.findViewById(R.id.quote_size)
-        navSliderQuotes=view.findViewById(R.id.navSlider)
-        bottom=view.findViewById(R.id.bottomfeature)
+        navSliderQuotes = view.findViewById(R.id.navSlider)
+        bottom = view.findViewById(R.id.bottomfeature)
         btnShare = view.findViewById(R.id.btnShare)
-        btnShareinsta=view.findViewById(R.id.share_insta)
-        btnSharewtsp=view.findViewById(R.id.share_wtsp)
-        btnCopy=view.findViewById(R.id.btn_copy)
+        btnShareinsta = view.findViewById(R.id.share_insta)
+        btnSharewtsp = view.findViewById(R.id.share_wtsp)
+        btnCopy = view.findViewById(R.id.btn_copy)
+
+        fontsButton = arrayOf(
+            view.findViewById(R.id.font1) as TextView,
+            view.findViewById(R.id.font2) as TextView,
+            view.findViewById(R.id.font3) as TextView,
+            view.findViewById(R.id.font4) as TextView,
+        )
     }
 
 
@@ -306,20 +347,65 @@ class QuotesSlider : Fragment() {
         return uri
     }
 
-    private fun shareImageUri(uri: Uri,ToPackage:String?) {
+    private fun shareImageUri(uri: Uri, ToPackage: String?) {
 
         val intent = Intent(Intent.ACTION_SEND)
         intent.putExtra(Intent.EXTRA_STREAM, uri)
         if (Const.enable_share_with_package)
-        intent.putExtra(Intent.EXTRA_TEXT,resources.getString(R.string.share_text)+"\n${resources.getString(R.string.store_prefix)+context?.packageName}")
+            intent.putExtra(
+                Intent.EXTRA_TEXT,
+                resources.getString(R.string.share_text) + "\n${resources.getString(R.string.store_prefix) + context?.packageName}"
+            )
         ToPackage?.let { intent.setPackage(it) }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         intent.type = "image/png"
         startActivity(intent)
+        var incrementShare = quote?.count_shared?.plus(1)
+        IncrementServiceQuote().incrementShare(quote?.id, incrementShare)
+            .enqueue(object : Callback<Any> {
+                override fun onFailure(call: Call<Any>, t: Throwable) {
+                    //Toast.makeText(context,t.message,Toast.LENGTH_LONG).show()
+                }
+
+                override fun onResponse(call: Call<Any>, response: Response<Any>) {
+                    //Toast.makeText(context,"Response :${response}",Toast.LENGTH_LONG).show()
+                }
+
+            })
     }
 
-
-
+    fun setFont(font: Int) {
+        when (font) {
+            0 -> {
+                val face = Typeface.createFromAsset(
+                    context?.resources?.assets,
+                    "coll.otf"
+                )
+                screenshot.findViewById<TextView>(R.id.txt_quote_slider).typeface = face
+            }
+            1 -> {
+                val face = Typeface.createFromAsset(
+                    context?.resources?.assets,
+                    "nekro.ttf"
+                )
+                screenshot.findViewById<TextView>(R.id.txt_quote_slider).typeface = face
+            }
+            2 -> {
+                val face = Typeface.createFromAsset(
+                    context?.resources?.assets,
+                    "niconne.ttf"
+                )
+                screenshot.findViewById<TextView>(R.id.txt_quote_slider).typeface = face
+            }
+            3 -> {
+                val face = Typeface.createFromAsset(
+                    context?.resources?.assets,
+                    "patrick.ttf"
+                )
+                screenshot.findViewById<TextView>(R.id.txt_quote_slider).typeface = face
+            }
+        }
+    }
 
 
 }

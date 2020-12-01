@@ -20,10 +20,10 @@
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph"
+        android:layout_above="@+id/banner_container"
         android:layout_below="@+id/toolbar"
-        android:layout_above="@+id/banner_container">
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph">
 
 
     </androidx.fragment.app.FragmentContainerView>
@@ -37,7 +37,7 @@
         android:orientation="vertical"
         android:paddingBottom="6dp"
 
-         />
+        />
 
 
 </RelativeLayout>

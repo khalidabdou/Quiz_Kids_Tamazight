@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">wallsticker</string>
 
-    <string name="banner_facebook_id">727614664650660_727614724650654</string>
-    <string name="native_facebook">727614664650660_727614714650655</string>>
+    <string name="facebook_app_id">727614664650660</string>
 
-    <string name="label_image">Good Morning</string>
+    <string name="banner_facebook_id">727614664650660_727614724650654</string>
+    <string name="native_facebook">727614664650660_727614714650655</string>
+    <string name="interstitial_facebook">727614664650660_727614711317322</string>
+    <string name="addTestDevice">db9ce886-0640-42c1-9346-a7139b3e077c</string>
+
+    <string name="label_image">Images</string>
     <string name="label_stickers">All Stickers</string>
     <string name="label_quates">Quotes</string>
     <string name="lable_rate">Rate</string>

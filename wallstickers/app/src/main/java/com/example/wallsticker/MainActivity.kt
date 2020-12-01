@@ -1,5 +1,8 @@
 package com.example.wallsticker
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -13,13 +16,12 @@ import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.facebook.ads.*
 import kotlinx.android.synthetic.main.activity_main.*
-import java.net.URL
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
-    private var adlistener : AdListener? = null
+    private var adlistener: AdListener? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,21 +30,16 @@ class MainActivity : AppCompatActivity() {
         //init facebook audience
 
         AudienceNetworkAds.initialize(this)
-        AdSettings.addTestDevice("fc76260a-b544-4f35-a317-36ddd4f65545")
-        var adView = AdView(this,resources.getString(R.string.banner_facebook_id), AdSize.BANNER_HEIGHT_50)
+        AdSettings.addTestDevice(resources.getString(R.string.addTestDevice))
+        var adView =
+            AdView(this, resources.getString(R.string.banner_facebook_id), AdSize.BANNER_HEIGHT_50)
         val adContainer = findViewById<LinearLayout>(R.id.banner_container)
         adContainer.removeAllViews()
         adContainer.addView(adView)
 
-         adlistener  = object : AdListener {
+        adlistener = object : AdListener {
             override fun onError(ad: Ad, adError: AdError) {
-                // Ad error callback
-                Toast.makeText(
-                    this@MainActivity,
-                    "Error: " + adError.errorCode.toString(),
-                    Toast.LENGTH_LONG
-                )
-                    .show()
+
             }
 
             override fun onAdLoaded(ad: Ad) {
@@ -71,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         setupActionBarWithNavController(navController)
 
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -83,14 +81,29 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.rate) {
+            val appPackageName =
+                packageName // getPackageName() from Context or Activity object
+
+            try {
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("market://details?id=$appPackageName")
+                    )
+                )
+            } catch (anfe: ActivityNotFoundException) {
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                    )
+                )
+            }
+        }
+
         return item.onNavDestinationSelected(navController) or super.onOptionsItemSelected(item)
     }
-
-    fun getJsonFromURL(wantedURL: String): String {
-        return URL(wantedURL).readText()
-    }
-
-
 
 
 }

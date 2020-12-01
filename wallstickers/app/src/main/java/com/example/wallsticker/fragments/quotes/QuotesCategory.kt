@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.wallsticker.Adapters.CategoryAdapter
 import com.example.wallsticker.Interfaces.CategoriesApi
 import com.example.wallsticker.Interfaces.ImageClickListener
@@ -16,7 +17,6 @@ import com.example.wallsticker.Model.category
 import com.example.wallsticker.Model.image
 import com.example.wallsticker.R
 import com.example.wallsticker.Utilities.Const
-import kotlinx.android.synthetic.main.fragment_img_category.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,6 +26,7 @@ class QuotesCategory : Fragment(), ImageClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var refresh: SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,21 +38,21 @@ class QuotesCategory : Fragment(), ImageClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        refresh = view.findViewById(R.id.refreshLayout)
 
         viewManager = GridLayoutManager(activity, 1)
-        refreshLayout.setOnRefreshListener {
+        refresh.setOnRefreshListener {
             fetchCategories()
         }
 
-        viewAdapter = CategoryAdapter(Const.CatImages, this)
+        viewAdapter = CategoryAdapter(Const.QuotesCategories, this)
         recyclerView = view.findViewById<RecyclerView>(R.id.cat_quotes_recycler_view)
         recyclerView.adapter = viewAdapter
         recyclerView.layoutManager = viewManager
         recyclerView.setHasFixedSize(true)
 
-        if (Const.CatImages.size <= 0) {
-            refreshLayout.isRefreshing = true
+        if (Const.QuotesCategories.size <= 0) {
+            refresh.isRefreshing = true
             fetchCategories()
         }
     }
@@ -62,7 +63,7 @@ class QuotesCategory : Fragment(), ImageClickListener {
 
     override fun onCatClicked(view: View, category: category, pos: Int) {
         val GoToQuotesByCategory =
-            HomeQuotesDirections.actionHomeQuotesToQuotesByCategory(category.category_id)
+            HomeQuotesDirections.actionHomeQuotesToQuotesByCategory(category.id)
         findNavController().navigate(GoToQuotesByCategory)
     }
 
@@ -70,8 +71,8 @@ class QuotesCategory : Fragment(), ImageClickListener {
 
         CategoriesApi().getCategories().enqueue(object : Callback<List<category>> {
             override fun onFailure(call: Call<List<category>>, t: Throwable) {
-                refreshLayout.isRefreshing = false
-                Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
+                refresh.isRefreshing = false
+                //Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
             }
 
             override fun onResponse(
@@ -79,12 +80,12 @@ class QuotesCategory : Fragment(), ImageClickListener {
                 response: Response<List<category>>
             ) {
 
-                //refreshLayout.isRefreshing = false
+                refresh.isRefreshing = false
                 val categories = response.body()
                 categories?.let {
-                    Const.CatImages.clear()
-                    Const.CatImages.addAll(it)
-                    viewAdapter.notifyItemInserted(Const.ImagesTemp.size - 1)
+                    Const.QuotesCategories.clear()
+                    Const.QuotesCategories.addAll(it)
+                    viewAdapter.notifyDataSetChanged()
 
                 }
 

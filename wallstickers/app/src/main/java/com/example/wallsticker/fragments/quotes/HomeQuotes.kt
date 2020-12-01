@@ -18,7 +18,6 @@ class HomeQuotes : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         return inflater.inflate(R.layout.fragment_home_quotes, container, false)
     }
 
@@ -40,7 +39,7 @@ class HomeQuotes : Fragment() {
         // is a title of tab
 
 
-        adapter.addFragment(QuotesLatest(), "Latest Quotess")
+        adapter.addFragment(QuotesLatest(), "Latest Quotes")
         adapter.addFragment(QuotesCategory(), "Categories")
         adapter.addFragment(FavoriteQuotes(), "Favorites")
         // setting adapter to view pager.

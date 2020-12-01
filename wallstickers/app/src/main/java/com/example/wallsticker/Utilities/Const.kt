@@ -7,25 +7,36 @@ import com.example.wallsticker.Model.quote
 class Const {
 
     companion object {
-        var apiQuotes = "https://api.mocki.io/"
+
+        var apiurl = "https://usaapi.dev3pro.co/api/"
         var DELAY_SET_WALLPAPER: Long = 2000
-        val directoryUpload: String = com.example.wallsticker.Config.BASE_URL + "upload/"
+        var COUNTER_AD_SHOW = 3
+        var INCREMENT_COUNTER = 0
+        val directoryUpload: String = com.example.wallsticker.Config.BASE_URL + "upload/images/"
+        val directoryUploadCat: String =
+            com.example.wallsticker.Config.BASE_URL + "upload/category/"
+
 
         var ImagesTemp = arrayListOf<image>()
         var ImagesByCatTemp = arrayListOf<image>()
-        var ImageTempFav=arrayListOf<image>()
+        var ImageTempFav = arrayListOf<image>()
 
         var CatImages = arrayListOf<category>()
 
-        var QuotesTemp = arrayListOf<Any>()
-        var QuotesTempFav = arrayListOf<quote>()
-        var isFavChanged=true
+
+        var isFavChanged = true
         var arrayOf: String = "latest"
-        var quotes = ArrayList<quote>()
+
         const val enable_share_with_package: Boolean = true
 
 
-
+        //for quotes
+        var quotesarrayof: String = "latest"
+        var quotes = ArrayList<quote>()
+        var QuotesTemp = arrayListOf<Any>()
+        var QuotesTempFav = arrayListOf<Any>()
+        var QuotesByCat = arrayListOf<Any>()
+        var QuotesCategories = arrayListOf<category>()
     }
 
 

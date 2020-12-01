@@ -4,15 +4,20 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wallsticker.Interfaces.QuoteClickListener
 import com.example.wallsticker.Model.quote
 import com.example.wallsticker.R
 import com.example.wallsticker.Utilities.AdItem_Fb
-import com.example.wallsticker.Utilities.FbAdHolder
 import com.facebook.ads.AdOptionsView
+import com.facebook.ads.MediaView
 import com.facebook.ads.NativeAd
+import com.facebook.ads.NativeAdLayout
+import kotlinx.android.synthetic.main.item_quote.view.*
 import java.util.*
 
 class QuotesAdapter(
@@ -39,8 +44,8 @@ class QuotesAdapter(
         viewType: Int
     ): QuotesAdapter.BaseViewHolder<*> {
         // create a new view
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_quote, parent, false) as View
+//        val view = LayoutInflater.from(parent.context)
+//            .inflate(R.layout.item_quote, parent, false) as View
         return when (viewType) {
             TYPE_QUOTE -> {
                 val view = LayoutInflater.from(context)
@@ -64,8 +69,8 @@ class QuotesAdapter(
             return
         val element = quotes[position]
         when (holder) {
-            is QuoteViewHolder -> holder.bind(element as quote)
-            is AdViewHolder -> holder.bind(element as AdItem_Fb)
+            is QuoteViewHolder -> holder.bind(element as quote, position)
+            is AdViewHolder -> holder.bind(element as AdItem_Fb, position)
             else -> throw IllegalArgumentException()
         }
 
@@ -111,43 +116,112 @@ class QuotesAdapter(
 
 
     abstract class BaseViewHolder<T>(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        abstract fun bind(item: T)
+        abstract fun bind(item: T, position: Int)
     }
 
 
     inner class QuoteViewHolder(quoteView: View) : BaseViewHolder<quote>(quoteView) {
-        var q: TextView = quoteView.findViewById(R.id.txt_quote)
-        override fun bind(item: quote) {
-            q.text = item.quote
+        var holder = quoteView
+
+
+        //
+//        if (quotes[position].isfav == 1)
+//            holder.view.fav.setImageDrawable(context?.getDrawable(R.drawable.ic_is_fav))
+//        else if (quotes[position].isfav == 0)
+//            holder.view.fav.setImageDrawable(context?.getDrawable(R.drawable.ic_baseline_favorite_border_24))
+//
+//        holder.view.btn_share.setOnClickListener {
+//            quoteClickListerner.onShareClicked(quotes[position])
+//        }
+//        holder.view.btn_copy.setOnClickListener {
+//            quoteClickListerner.onCopyClicked(holder.view, quotes[position])
+//        }
+//        holder.view.txt_quote.setOnClickListener {
+//            quoteClickListerner.onQuoteClicked(holder.view, quotes[position], position)
+//        }
+//        holder.view.fav.setOnClickListener {
+//            try {
+//                quoteClickListerner.onFavClicked(quotes[position], position)
+//            } catch (e: Exception) {
+//            }
+//
+//        }
+        override fun bind(item: quote, position: Int) {
+            holder.txt_quote.text = item.quote
+            holder.animation =
+                AnimationUtils.loadAnimation(
+                    context,
+                    R.anim.holder_slide
+                )
+
+
+            if (item.isfav == 1)
+                holder.fav.setImageDrawable(context?.getDrawable(R.drawable.ic_is_fav))
+            else if (item.isfav == 0)
+                holder.fav.setImageDrawable(context?.getDrawable(R.drawable.ic_baseline_favorite_border_24))
+
+            holder.fav.setOnClickListener {
+                try {
+                    quoteClickListerner.onFavClicked(item, position)
+                } catch (e: Exception) {
+                }
+            }
+            holder.btn_share.setOnClickListener {
+                quoteClickListerner.onShareClicked(item)
+            }
+
+            holder.setOnClickListener {
+                quoteClickListerner.onQuoteClicked(holder, item, position)
+            }
+            holder.btn_copy.setOnClickListener {
+                quoteClickListerner.onCopyClicked(holder, item)
+            }
+
+
         }
+
 
     }
 
     inner class AdViewHolder(adView: View) : BaseViewHolder<AdItem_Fb>(adView) {
 
-        private var adHolder: FbAdHolder?=null
 
-        override fun bind(item: AdItem_Fb) {
-            var nativeAd_fb: NativeAd? = item.getUnifiedNativeAd()
-            adHolder?.tvAdTitle?.text = nativeAd_fb?.advertiserName
-            adHolder?.tvAdBody?.text = nativeAd_fb?.adBodyText
-            adHolder?.tvAdSocialContext?.text = nativeAd_fb?.adSocialContext
-            adHolder?.tvAdSponsoredLabel?.text = "sponsored"
-            adHolder?.btnAdCallToAction?.text = nativeAd_fb?.adCallToAction
-            adHolder?.btnAdCallToAction?.visibility = if (nativeAd_fb?.hasCallToAction()!!) View.VISIBLE else View.INVISIBLE
+        private var adHolder = adView
+        private var mvAdMedia = adHolder.findViewById<MediaView>(R.id.native_ad_media)
+        private var tvAdTitle = adHolder.findViewById<TextView>(R.id.native_ad_title)
+        private var tvAdBody = adHolder.findViewById<TextView>(R.id.native_ad_body)
+        private var tvAdSocialContext =
+            adHolder.findViewById<TextView>(R.id.native_ad_social_context)
+        private var tvAdSponsoredLabel =
+            adHolder.findViewById<TextView>(R.id.native_ad_sponsored_label)
+        private var btnAdCallToAction =
+            adHolder.findViewById<Button>(R.id.native_ad_call_to_action)
+        private var ivAdIcon = adHolder.findViewById<MediaView>(R.id.native_ad_icon)
+        private var adChoicesContainer =
+            adHolder.findViewById<LinearLayout>(R.id.ad_choices_container)
+
+        override fun bind(item: AdItem_Fb, position: Int) {
+            var nativeAd_fb: NativeAd? = item.unifiedNativeAd
+            tvAdTitle?.text = nativeAd_fb?.advertiserName
+            tvAdBody?.text = nativeAd_fb?.adBodyText
+            tvAdSocialContext?.text = nativeAd_fb?.adSocialContext
+            tvAdSponsoredLabel?.text = "sponsored"
+            btnAdCallToAction?.text = nativeAd_fb?.adCallToAction
+            btnAdCallToAction?.visibility =
+                if (nativeAd_fb?.hasCallToAction()!!) View.VISIBLE else View.INVISIBLE
             val adOptionsView =
-                AdOptionsView(context, nativeAd_fb, adHolder?.nativeAdLayout)
-            adHolder?.adChoicesContainer?.addView(adOptionsView, 0)
+                AdOptionsView(context, nativeAd_fb, adHolder as NativeAdLayout)
+            adChoicesContainer?.addView(adOptionsView, 0)
 
             val clickableViews: MutableList<View> =
                 ArrayList()
-            clickableViews.add(adHolder?.ivAdIcon!!)
-            clickableViews.add(adHolder!!.mvAdMedia!!)
-            adHolder!!.btnAdCallToAction?.let { clickableViews.add(it) }
+            clickableViews.add(ivAdIcon!!)
+            clickableViews.add(mvAdMedia!!)
+            btnAdCallToAction?.let { clickableViews.add(it) }
             nativeAd_fb.registerViewForInteraction(
-                adHolder!!.nativeAdLayout,
-                adHolder!!.mvAdMedia,
-                adHolder!!.ivAdIcon,
+                adHolder,
+                mvAdMedia,
+                ivAdIcon,
                 clickableViews
             )
 

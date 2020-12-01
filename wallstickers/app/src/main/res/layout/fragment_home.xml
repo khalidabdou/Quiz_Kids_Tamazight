@@ -9,12 +9,56 @@
     tools:context=".fragments.HomeFragment">
 
     <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/flatui_wet_asphalt"
+                android:fontFamily="@font/patrick"
+                android:gravity="center"
+                android:text="Random Quote"
+                android:textColor="@color/color4"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/txt_today"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                android:fontFamily="@font/patrick"
+                android:gravity="center"
+                android:text='"Try not to become a man of success. Rather become a man of value'
+                android:textColor="@color/flatui_wet_asphalt"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="10dp"
+                android:layout_weight="0"
+                android:src="@drawable/ic_share" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/btn_Stickers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:visibility="gone"
-        app:cardCornerRadius="10dp"
-        android:layout_margin="8dp">
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,12 +101,13 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/btn_Images"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,7 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_gradient"
-                    android:fontFamily="@font/coll"
+                    android:fontFamily="@font/patrick"
                     android:gravity="center"
                     android:text="Images"
                     android:textColor="@android:color/white"
@@ -108,13 +153,12 @@
         android:id="@+id/btn_quotes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <View
                 android:layout_width="6dp"
@@ -139,9 +183,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/bg_gradient"
-                    android:fontFamily="@font/coll"
+                    android:fontFamily="@font/patrick"
                     android:gravity="center"
-                    android:text="Quates"
+                    android:text="Quotes"
                     android:textColor="@android:color/white"
                     android:textSize="36sp"
                     app:layout_constraintBottom_toBottomOf="parent"

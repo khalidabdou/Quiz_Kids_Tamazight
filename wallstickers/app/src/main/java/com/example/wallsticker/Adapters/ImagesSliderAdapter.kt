@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
-import com.example.wallsticker.Config
 import com.example.wallsticker.Model.image
 import com.example.wallsticker.R
 import com.example.wallsticker.Utilities.Const
@@ -41,12 +39,10 @@ class ImagesSliderAdapter(private val context: Context) : PagerAdapter() {
         //view.imgSliders.text=images[position]
         view.tag = "V$position"
         Glide.with(view.context)
-            .load(Config.BASE_URL + "upload/" + images[position].image_upload)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.cute)
-            )
+            .load(Const.directoryUpload + images[position].image_upload)
+            .placeholder(R.drawable.placeholder)
             .into(view.imgSliders)
+
 
         val vp = container as ViewPager
         vp.addView(view, 0)

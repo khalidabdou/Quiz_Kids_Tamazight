@@ -9,8 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.wallsticker.Adapters.CategoryAdapter
-import com.example.wallsticker.Interfaces.CategoriesApi
+import com.example.wallsticker.Interfaces.CategoriesImageApi
 import com.example.wallsticker.Interfaces.ImageClickListener
 import com.example.wallsticker.Model.category
 import com.example.wallsticker.Model.image
@@ -27,7 +28,7 @@ class ImgCategoryFragment : Fragment(), ImageClickListener {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-
+    private lateinit var refresh: SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +45,7 @@ class ImgCategoryFragment : Fragment(), ImageClickListener {
         refreshLayout.setOnRefreshListener {
             fetchCategories()
         }
-
+        refresh = view.findViewById(R.id.refreshLayout)
         viewAdapter = CategoryAdapter(Const.CatImages, this)
         recyclerView = view.findViewById<RecyclerView>(R.id.CatImg_recycler_view)
         recyclerView.adapter = viewAdapter
@@ -52,7 +53,7 @@ class ImgCategoryFragment : Fragment(), ImageClickListener {
         recyclerView.setHasFixedSize(true)
 
         if (Const.CatImages.size <= 0) {
-            refreshLayout.isRefreshing = true
+            refresh.isRefreshing = true
             fetchCategories()
         }
     }
@@ -60,9 +61,9 @@ class ImgCategoryFragment : Fragment(), ImageClickListener {
 
     private fun fetchCategories() {
 
-        CategoriesApi().getCategories().enqueue(object : Callback<List<category>> {
+        CategoriesImageApi().getCategories().enqueue(object : Callback<List<category>> {
             override fun onFailure(call: Call<List<category>>, t: Throwable) {
-                refreshLayout.isRefreshing = false
+                refresh.isRefreshing = false
                 Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
             }
 
@@ -71,7 +72,7 @@ class ImgCategoryFragment : Fragment(), ImageClickListener {
                 response: Response<List<category>>
             ) {
 
-                refreshLayout.isRefreshing = false
+                refresh.isRefreshing = false
                 val categories = response.body()
                 categories?.let {
                     Const.CatImages.clear()
@@ -90,7 +91,7 @@ class ImgCategoryFragment : Fragment(), ImageClickListener {
         Const.arrayOf = "byCat"
         val actionToImageByCat =
             ImagesFragmentDirections.actionImagesFragmentToImageByCategory(
-                category.category_id
+                category.id
             )
         findNavController().navigate(actionToImageByCat)
     }

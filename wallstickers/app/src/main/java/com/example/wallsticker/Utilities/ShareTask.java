@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.widget.Toast;
 
 import com.example.wallsticker.R;
 import com.koushikdutta.ion.Ion;
@@ -30,9 +31,9 @@ public class ShareTask extends AsyncTask<String, String, String> {
     private ProgressDialog pDialog;
     private String ToPackage;
 
-    public ShareTask(Context context,String ToPackage) {
+    public ShareTask(Context context, String ToPackage) {
         this.context = context;
-        this.ToPackage=ToPackage;
+        this.ToPackage = ToPackage;
     }
 
     @Override
@@ -75,6 +76,7 @@ public class ShareTask extends AsyncTask<String, String, String> {
                 dir.mkdirs();
                 String fileName = idStr;
                 file = new File(dir, fileName);
+                Toast.makeText(context,"is Gif",Toast.LENGTH_LONG).show();
                 Ion.with(context.getApplicationContext()).load(path)
                         .write(file);
             } else {
@@ -106,14 +108,14 @@ public class ShareTask extends AsyncTask<String, String, String> {
                 StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
                 StrictMode.setVmPolicy(builder.build());
                 Intent share = new Intent(Intent.ACTION_SEND);
-                if (ToPackage!=null)
-                share.setPackage(ToPackage);
+                if (ToPackage != null)
+                    share.setPackage(ToPackage);
                 share.setType("image/*");
                 share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
 
                 // SHARE URL
                 if (Const.enable_share_with_package)
-                    share.putExtra(Intent.EXTRA_TEXT,context.getString(R.string.share_text)+"\n"+context.getString(R.string.store_prefix)+context.getPackageName());
+                    share.putExtra(Intent.EXTRA_TEXT, context.getString(R.string.share_text) + "\n" + context.getString(R.string.store_prefix) + context.getPackageName());
                 context.startActivity(Intent.createChooser(share, "Share the photo"));
 
                 pDialog.dismiss();

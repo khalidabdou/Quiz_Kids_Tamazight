@@ -1,14 +1,18 @@
 package com.example.wallsticker.fragments.quotes
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.provider.BaseColumns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wallsticker.Adapters.QuotesAdapter
@@ -24,6 +28,7 @@ class FavoriteQuotes : Fragment(), QuoteClickListener {
 
 
     private var itemIds: ArrayList<quote>? = null
+    private lateinit var clipboardManager: ClipboardManager
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
@@ -43,8 +48,9 @@ class FavoriteQuotes : Fragment(), QuoteClickListener {
         super.onViewCreated(view, savedInstanceState)
 
 
+        clipboardManager = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
-        nofav=view.findViewById(R.id.nofav)
+        nofav = view.findViewById(R.id.nofav)
         recyclerView = view.findViewById<RecyclerView>(R.id.fav_quote_recycler_view)
         viewManager = GridLayoutManager(activity, 1)
         viewAdapter = QuotesAdapter(this, Const.QuotesTempFav, context)
@@ -63,14 +69,29 @@ class FavoriteQuotes : Fragment(), QuoteClickListener {
 
 
     override fun onQuoteClicked(view: View, quote: quote, pos: Int) {
+        Const.quotesarrayof = "favs"
+        val GoToSlider = HomeQuotesDirections.actionHomeQuotesToQuotesSlider(pos)
+        findNavController().navigate(GoToSlider)
     }
 
     override fun onShareClicked(quote: quote) {
+        var packageTxt: String? = ""
+        if (Const.enable_share_with_package)
+            packageTxt =
+                "\n" + resources.getString(R.string.share_text) + "\n${resources.getString(R.string.store_prefix) + context?.packageName}"
 
+        val shareIntent = Intent()
+        shareIntent.action = Intent.ACTION_SEND
+        shareIntent.type = "text/plain"
+        shareIntent.putExtra(Intent.EXTRA_TEXT, quote.quote + packageTxt)
+        startActivity(Intent.createChooser(shareIntent, "Share To"))
     }
 
     override fun onCopyClicked(view: View, quote: quote) {
-
+        val textToCopy = quote.quote
+        val clipData = ClipData.newPlainText("text", textToCopy)
+        clipboardManager.setPrimaryClip(clipData)
+        Toast.makeText(context, "Text copied to clipboard", Toast.LENGTH_LONG).show()
     }
 
 
@@ -99,9 +120,9 @@ class FavoriteQuotes : Fragment(), QuoteClickListener {
 
                 }
             }
-            if (Const.QuotesTempFav.size<=0)
-                nofav.visibility=View.VISIBLE
-            else nofav.visibility=View.GONE
+            if (Const.QuotesTempFav.size <= 0)
+                nofav.visibility = View.VISIBLE
+            else nofav.visibility = View.GONE
         }
         viewAdapter.notifyDataSetChanged()
         //Toast.makeText(context, itemIds!!.count().toString(),Toast.LENGTH_LONG).show()
@@ -120,7 +141,7 @@ class FavoriteQuotes : Fragment(), QuoteClickListener {
             quote.isfav = 0
             Const.QuotesTempFav.remove(quote)
             viewAdapter.notifyItemRemoved(pos)
-            Toast.makeText(context, deletedRows.toString(), Toast.LENGTH_LONG).show()
+            //Toast.makeText(context, deletedRows.toString(), Toast.LENGTH_LONG).show()
         }
 
     }

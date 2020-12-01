@@ -64,18 +64,18 @@
     <fragment
         android:id="@+id/imgSlider"
         android:name="com.example.wallsticker.fragments.images.ImgSlider"
-        android:label="fragment_img_slider"
-        tools:layout="@layout/fragment_img_slider" >
+        android:label="@string/label_image"
+        tools:layout="@layout/fragment_img_slider">
         <argument
             android:name="position"
-            app:argType="integer"
-            android:defaultValue="1" />
+            android:defaultValue="1"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/imageByCategory"
         android:name="com.example.wallsticker.fragments.images.ImageByCategory"
-        android:label="fragment_image_by_category"
-        tools:layout="@layout/fragment_image_by_category" >
+        android:label="@string/label_image"
+        tools:layout="@layout/fragment_image_by_category">
         <argument
             android:name="CatId"
             app:argType="integer" />
@@ -90,8 +90,8 @@
     <fragment
         android:id="@+id/homeQuotes"
         android:name="com.example.wallsticker.fragments.quotes.HomeQuotes"
-        android:label="fragment_home_quotes"
-        tools:layout="@layout/fragment_home_quotes" >
+        android:label="@string/label_quates"
+        tools:layout="@layout/fragment_home_quotes">
         <action
             android:id="@+id/action_homeQuotes_to_quotesByCategory"
             app:destination="@id/quotesByCategory"
@@ -110,17 +110,20 @@
     <fragment
         android:id="@+id/quotesByCategory"
         android:name="com.example.wallsticker.fragments.quotes.QuotesByCategory"
-        android:label="fragment_quotes_by_category"
-        tools:layout="@layout/fragment_quotes_by_category" >
+        android:label="@string/label_quates"
+        tools:layout="@layout/fragment_quotes_by_category">
         <argument
             android:name="cat_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_quotesByCategory_to_quotesSlider"
+            app:destination="@id/quotesSlider" />
     </fragment>
     <fragment
         android:id="@+id/quotesSlider"
         android:name="com.example.wallsticker.fragments.quotes.QuotesSlider"
-        android:label="fragment_quotes_slider"
-        tools:layout="@layout/fragment_quotes_slider" >
+        android:label="@string/label_quates"
+        tools:layout="@layout/fragment_quotes_slider">
         <argument
             android:name="current"
             app:argType="integer" />

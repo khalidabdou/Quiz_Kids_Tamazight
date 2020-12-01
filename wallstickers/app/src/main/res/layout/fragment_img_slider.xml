@@ -17,8 +17,6 @@
     </androidx.viewpager.widget.ViewPager>
 
 
-
-
     <LinearLayout
         android:id="@+id/bottomfeature"
         android:layout_width="match_parent"
@@ -31,12 +29,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
+
         <ImageView
             android:id="@+id/fabDownload"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:src="@drawable/ic_save" />
+
         <ImageView
             android:id="@+id/share_wtsp"
             android:layout_width="wrap_content"
