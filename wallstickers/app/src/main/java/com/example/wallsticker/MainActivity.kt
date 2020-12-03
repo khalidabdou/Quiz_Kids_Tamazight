@@ -8,30 +8,40 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.onNavDestinationSelected
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.*
 import com.facebook.ads.*
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var navController: NavController
     private var adlistener: AdListener? = null
-
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var adView: AdView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //init facebook audience
 
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        drawerLayout = findViewById(R.id.drawerLayout)
+
+        //init facebook audience
         AudienceNetworkAds.initialize(this)
         AdSettings.addTestDevice(resources.getString(R.string.addTestDevice))
-        var adView =
+        adView =
             AdView(this, resources.getString(R.string.banner_facebook_id), AdSize.BANNER_HEIGHT_50)
         val adContainer = findViewById<LinearLayout>(R.id.banner_container)
         adContainer.removeAllViews()
@@ -55,24 +65,24 @@ class MainActivity : AppCompatActivity() {
             }
         }
         // Request an ad
-
-
         adView.loadAd(adView.buildLoadAdConfig().withAdListener(adlistener).build())
 
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+
         navController = navHostFragment.findNavController()
-
-
+        appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
+        navigationView.setupWithNavController(navController)
         setSupportActionBar(toolbar)
-        setupActionBarWithNavController(navController)
+        setupActionBarWithNavController(navController, appBarConfiguration)
 
+
+        
 
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() or super.onSupportNavigateUp()
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -82,28 +92,84 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.rate) {
-            val appPackageName =
-                packageName // getPackageName() from Context or Activity object
-
-            try {
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=$appPackageName")
-                    )
-                )
-            } catch (anfe: ActivityNotFoundException) {
-                startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
-                    )
-                )
-            }
+            openAppInStore()
         }
-
         return item.onNavDestinationSelected(navController) or super.onOptionsItemSelected(item)
     }
 
+    override fun onDestroy() {
+        adView.destroy()
+        super.onDestroy()
+
+    }
+
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        Toast.makeText(applicationContext,item.itemId.toString(),Toast.LENGTH_LONG).show()
+        when (item.itemId) {
+            R.id.rate -> {
+                openAppInStore()
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+    private fun openAppInStore() {
+        val appPackageName =
+            packageName // getPackageName() from Context or Activity object
+
+        try {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("market://details?id=$appPackageName")
+                )
+            )
+        } catch (anfe: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")
+                )
+            )
+        }
+    }
+
+
+    private fun chooseThemeDialog() {
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("chose the")
+        val styles = arrayOf("Light","Dark","System default")
+        val checkedItem = 0
+
+        builder.setSingleChoiceItems(styles, checkedItem) { dialog, which ->
+
+            when (which) {
+                0 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    delegate.applyDayNight()
+                    dialog.dismiss()
+                }
+                1 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    delegate.applyDayNight()
+
+                    dialog.dismiss()
+                }
+                2 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                    delegate.applyDayNight()
+                    dialog.dismiss()
+                }
+
+            }
+        }
+
+        val dialog = builder.create()
+        dialog.show()
+    }
 
 }

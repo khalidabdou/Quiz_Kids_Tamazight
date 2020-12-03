@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group>
+
+        <item android:id="@+id/homeQuotes"
+            android:icon="@drawable/ic_quote"
+            android:title="@string/label_quates"
+            />
+        <item android:id="@+id/ImagesFragment"
+            android:icon="@drawable/ic_image"
+            android:title="@string/label_image"
+            />
+    </group>
+
+    <item
+        android:id="@+id/rate"
+        android:icon="@drawable/ic_rate"
+        android:title="@string/lable_rate"
+        app:showAsAction="always" />
+
+</menu>

@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.wallsticker.Adapters.QuotesAdapter
@@ -41,6 +42,7 @@ class QuotesByCategory : Fragment(), QuoteClickListener {
     private lateinit var refresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
     private lateinit var interstitialad: interstitial
+    private lateinit var layoutManager: LinearLayoutManager
     private var offset = 0
 
 
@@ -58,9 +60,10 @@ class QuotesByCategory : Fragment(), QuoteClickListener {
         initview(view)
         clipboardManager = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         viewManager = GridLayoutManager(activity, 1)
+        layoutManager= LinearLayoutManager(context)
         viewAdapter = QuotesAdapter(this, Const.QuotesByCat, context)
         recyclerView.adapter = viewAdapter
-        recyclerView.layoutManager = viewManager
+        recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         addScrollerListener()
 
