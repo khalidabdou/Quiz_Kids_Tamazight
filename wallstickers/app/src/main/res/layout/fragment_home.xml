@@ -8,6 +8,15 @@
     android:orientation="vertical"
     tools:context=".fragments.HomeFragment">
 
+    <Switch
+        android:id="@+id/modeChange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/patrick"
+        android:padding="6dp"
+        android:text="Dark Mode"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +47,7 @@
                 android:fontFamily="@font/patrick"
                 android:gravity="center"
                 android:text='"Try not to become a man of success. Rather become a man of value'
-                android:textColor="@color/flatui_wet_asphalt"
+                android:textColor="@color/title"
                 android:textSize="20sp" />
 
             <ImageView
