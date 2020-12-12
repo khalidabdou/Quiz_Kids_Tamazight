@@ -359,7 +359,12 @@ class QuotesSlider : Fragment() {
         ToPackage?.let { intent.setPackage(it) }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         intent.type = "image/png"
-        startActivity(intent)
+        try {
+            startActivity(intent)
+        }catch (ex:Exception){
+            Toast.makeText(context,"Error Please Try Again",Toast.LENGTH_LONG).show()
+        }
+
         var incrementShare = quote?.count_shared?.plus(1)
         IncrementServiceQuote().incrementShare(quote?.id, incrementShare)
             .enqueue(object : Callback<Any> {

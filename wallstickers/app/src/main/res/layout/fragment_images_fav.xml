@@ -44,7 +44,7 @@
             android:fontFamily="@font/coll"
             android:gravity="center"
             android:text="No Favorites"
-            android:textColor="@color/flatui_wet_asphalt"
+            android:textColor="@color/title"
             android:textSize="30sp" />
     </LinearLayout>
 
