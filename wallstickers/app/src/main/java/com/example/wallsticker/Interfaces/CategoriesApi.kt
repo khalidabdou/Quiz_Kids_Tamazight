@@ -2,42 +2,32 @@ package com.example.wallsticker.Interfaces
 
 
 import com.example.wallsticker.Model.category
+import com.example.wallsticker.Model.image
+import com.example.wallsticker.Retrofit.RetrofitInstance
 import com.example.wallsticker.Utilities.Const
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 
-interface CategoriesApi {
-
-
+interface QuoteesCategoriesApi {
     @GET("QuotesCats")
-    fun getCategories(): Call<List<category>>
+     suspend fun getQuotesCategories(): Response<List<category>>
 
-    companion object {
-        operator fun invoke(): CategoriesApi {
-            return Retrofit.Builder()
-                .baseUrl(Const.apiurl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(CategoriesApi::class.java)
-        }
-    }
+
 }
 
 
-interface CategoriesImageApi {
+interface ImageesApi {
     @GET("ImgCats")
-    fun getCategories(): Call<List<category>>
+    suspend fun getImgesCategories(): Response<List<category>>
 
-    companion object {
-        operator fun invoke(): CategoriesImageApi {
-            return Retrofit.Builder()
-                .baseUrl(Const.apiurl)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(CategoriesImageApi::class.java)
-        }
-    }
+    @GET("latest")
+    suspend fun getImages(
+        @Query("offset") offset: Int,
+        @Query("id") id: Int? = null
+    ): Response<List<image>>
 }

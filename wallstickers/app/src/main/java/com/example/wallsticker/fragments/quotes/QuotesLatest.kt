@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +21,10 @@ import com.example.wallsticker.Interfaces.QuoteClickListener
 import com.example.wallsticker.Interfaces.QuotesApi
 import com.example.wallsticker.Model.quote
 import com.example.wallsticker.R
+import com.example.wallsticker.Repository.QuotesRepo
 import com.example.wallsticker.Utilities.*
+import com.example.wallsticker.ViewModel.QuotesViewModel
+import com.example.wallsticker.ViewModelFactory
 import com.facebook.ads.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,6 +43,9 @@ class QuotesLatest : Fragment(), QuoteClickListener {
     private lateinit var progressBar: ProgressBar
     private var offset = 0
 
+    private lateinit var viewmodel: QuotesViewModel
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,17 +58,29 @@ class QuotesLatest : Fragment(), QuoteClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recyclerView = view.findViewById<RecyclerView>(R.id.latest_quote_recycler_view)
-        refresh = view.findViewById(R.id.refreshLayout)
-        progressBar = view.findViewById(R.id.progress)
 
-        viewManager = GridLayoutManager(activity, 1)
-        viewAdapter = QuotesAdapter(this, Const.QuotesTemp, context)
 
-        recyclerView.adapter = viewAdapter
-        recyclerView.layoutManager = viewManager
-        recyclerView.setHasFixedSize(true)
-        addScrollerListener()
+        initView(view)
+        val quotesRepo= QuotesRepo()
+        val viewModelFactory= ViewModelFactory(quotesRepo)
+        viewmodel = ViewModelProvider(this, viewModelFactory).get(QuotesViewModel::class.java)
+        if (Const.QuotesTemp.size<=0)
+        viewmodel.getLatestQuotes(offset,null)
+        viewmodel.latestquotes.observe(viewLifecycleOwner,{ quotes->
+            if (quotes.isSuccessful){
+                Toast.makeText(context,"sss",Toast.LENGTH_LONG).show()
+                refresh.isRefreshing=false
+                quotes.body()?.let {
+                    Const.QuotesTemp.addAll(it)
+                    viewAdapter.notifyItemChanged(Const.QuotesTemp.size-1)
+                }
+            }else{
+
+            }
+        })
+
+
+
         refresh.setOnRefreshListener {
             fetchQuotes()
         }
@@ -77,9 +96,24 @@ class QuotesLatest : Fragment(), QuoteClickListener {
 
     }
 
+    private fun initView(view: View){
+        recyclerView = view.findViewById<RecyclerView>(R.id.latest_quote_recycler_view)
+        refresh = view.findViewById(R.id.refreshLayout)
+        progressBar = view.findViewById(R.id.progress)
+
+        viewManager = GridLayoutManager(activity, 1)
+        viewAdapter = QuotesAdapter(this, Const.QuotesTemp, context)
+
+        recyclerView.adapter = viewAdapter
+        recyclerView.layoutManager = viewManager
+        recyclerView.setHasFixedSize(true)
+        addScrollerListener()
+    }
+
     private fun fetchQuotes() {
 
-        QuotesApi().getQuotes(offset).enqueue(object : Callback<List<quote>> {
+
+     /*   QuotesApi().getQuotes(offset).enqueue(object : Callback<List<quote>> {
             override fun onFailure(call: Call<List<quote>>, t: Throwable) {
                 refresh.isRefreshing = false
                 //Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
@@ -105,7 +139,7 @@ class QuotesLatest : Fragment(), QuoteClickListener {
                 }
 
             }
-        })
+        })*/
     }
 
     override fun onQuoteClicked(view: View, quote: quote, pos: Int) {

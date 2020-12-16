@@ -1,16 +1,26 @@
 package com.example.wallsticker.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.wallsticker.Interfaces.QuotesApi
+import com.example.wallsticker.MainViewModel
 import com.example.wallsticker.Model.quote
 import com.example.wallsticker.R
+import com.example.wallsticker.Repository.DataStoreRepository
+import com.example.wallsticker.Repository.QuotesRepo
 import com.example.wallsticker.Utilities.Const
+import com.example.wallsticker.ViewModel.QuotesViewModel
+import com.example.wallsticker.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,12 +32,53 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var todyaQuote: TextView
     private lateinit var shareTodayQuote: ImageView
     private var trying: Int = 0
+    private lateinit var lightMode: Switch
+    val styles = arrayOf("Light", "Dark", "System default")
+    var firstcheck :Boolean= false
+
+    private lateinit var mainViewModel: MainViewModel
+    private lateinit var viewmodelQuotes: QuotesViewModel
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        todyaQuote = view.findViewById(R.id.txt_today)
-        shareTodayQuote = view.findViewById(R.id.share)
+
+        val quotesRepo= QuotesRepo()
+        val viewModelFactory= ViewModelFactory(quotesRepo)
+
+        initView(view)
+        viewmodelQuotes= ViewModelProvider(this,viewModelFactory).get(QuotesViewModel::class.java)
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        if (Const.QuotesTemp.size<=0)
+        viewmodelQuotes.getLatestQuotes(0,null)
+
+
+
+
+        mainViewModel.readFromDataStore.observe(viewLifecycleOwner, { MODE ->
+            when (MODE) {
+                "NO" -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    lightMode.isChecked=false
+                }
+                "YES" -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                    lightMode.isChecked=true
+                }
+                else -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                }
+            }
+        })
+        viewmodelQuotes.latestquotes.observe(viewLifecycleOwner,{quotes->
+            if (quotes.isSuccessful){
+                quotes.body()?.let {
+                    Const.QuotesTemp.addAll(it)
+                    setRandomQuote()
+                }
+            }
+        })
 
 
         btn_Images.setOnClickListener {
@@ -49,21 +100,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
 
-        if (Const.QuotesTemp.size <= 0) {
-            //refresh.isRefreshing = true
-            fetchQuotes()
-        } else {
-            var rnds: Int = (0..Const.QuotesTemp.size - 1).random()
-            if (Const.QuotesTemp[rnds] is quote) {
-                val quoteString: quote = Const.QuotesTemp[rnds] as quote
-                setRandomQuote(quoteString.quote.toString())
-            } else {
-                rnds--
-                val quoteString: quote = Const.QuotesTemp[rnds] as quote
-                setRandomQuote(quoteString.quote.toString())
-            }
 
-        }
 
         shareTodayQuote.setOnClickListener {
 
@@ -79,42 +116,44 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             startActivity(Intent.createChooser(shareIntent, "Share To"))
         }
 
+
+
+        lightMode.setOnCheckedChangeListener { buttonview, ischakced ->
+            if (ischakced) {
+                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                mainViewModel.saveToDataStore("YES")
+            } else {
+                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                mainViewModel.saveToDataStore("NO")
+            }
+        }
+
     }
 
-    private fun fetchQuotes() {
+    private fun initView(view: View) {
+        todyaQuote = view.findViewById(R.id.txt_today)
+        shareTodayQuote = view.findViewById(R.id.share)
+        lightMode = view.findViewById(R.id.modeChange)
 
-        QuotesApi().getQuotes(offset).enqueue(object : Callback<List<quote>> {
-            override fun onFailure(call: Call<List<quote>>, t: Throwable) {
-                trying++
-                if (trying < 5)
-                    fetchQuotes()
-                //Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
-            }
-
-            override fun onResponse(
-                call: Call<List<quote>>,
-                response: Response<List<quote>>
-            ) {
-
-                val quotes = response.body()
-
-                quotes?.let {
-                    quotes[5].quote?.let { it1 -> setRandomQuote(it1) }
-                    quotes.forEach {
-                        if (Const.QuotesTempFav.contains(it))
-                            it.id = 1
-                    }
-                    Const.QuotesTemp.addAll(it)
-                }
-
-            }
-        })
     }
 
 
     //set random quote
-    private fun setRandomQuote(quote: String) {
-        todyaQuote.text = quote
+    private fun setRandomQuote() {
+
+
+        if (Const.QuotesTemp.size <= 0) {
+        } else {
+            var rnds: Int = (0..Const.QuotesTemp.size - 1).random()
+            if (Const.QuotesTemp[rnds] is quote) {
+                val quoteString: quote = Const.QuotesTemp[rnds] as quote
+                todyaQuote.text = quoteString.quote
+            } else {
+                rnds--
+                val quoteString: quote = Const.QuotesTemp[rnds] as quote
+                todyaQuote.text = quoteString.quote
+            }
+        }
     }
 
 

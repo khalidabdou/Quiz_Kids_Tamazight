@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawerLayout = findViewById(R.id.drawerLayout)
 
 
+
         //init facebook audience
         AudienceNetworkAds.initialize(this)
         AdSettings.addTestDevice(resources.getString(R.string.addTestDevice))
@@ -180,3 +181,5 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 }
+
+

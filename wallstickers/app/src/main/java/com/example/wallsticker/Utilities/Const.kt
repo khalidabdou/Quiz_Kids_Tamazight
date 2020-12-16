@@ -17,6 +17,7 @@ class Const {
             com.example.wallsticker.Config.BASE_URL + "upload/category/"
 
 
+        //for images
         var ImagesTemp = arrayListOf<image>()
         var ImagesByCatTemp = arrayListOf<image>()
         var ImageTempFav = arrayListOf<image>()

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,15 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.wallsticker.Adapters.ImagesAdapter
+import com.example.wallsticker.ImagesViewModelFactory
 import com.example.wallsticker.Interfaces.ImageClickListener
 import com.example.wallsticker.Interfaces.ImagesApi
 import com.example.wallsticker.Model.category
 import com.example.wallsticker.Model.image
 import com.example.wallsticker.R
+import com.example.wallsticker.Repository.ImagesRepo
 import com.example.wallsticker.Utilities.Const
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ImageByCategory : Fragment(), ImageClickListener {
 
@@ -35,6 +35,7 @@ class ImageByCategory : Fragment(), ImageClickListener {
     private lateinit var refresh: SwipeRefreshLayout
     lateinit var layoutManager: LinearLayoutManager
     var offset: Int = 0
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,10 +68,29 @@ class ImageByCategory : Fragment(), ImageClickListener {
 
     }
 
+    private fun iniView(view: View){
+        //init ViewModel
+        val imagesRepo= ImagesRepo()
+        val imageviewModelFactory= ImagesViewModelFactory(imagesRepo)
+        //imagesViewMode= ViewModelProvider(this,imageviewModelFactory).get(ImagesViewModel::class.java)
+
+        viewManager = GridLayoutManager(activity, 3)
+        layoutManager = LinearLayoutManager(activity)
+        progressBar = view.findViewById(R.id.progress)
+        refresh = view.findViewById(R.id.refreshLayout)
+
+        viewAdapter = ImagesAdapter(this, Const.ImagesTemp, context)
+        recyclerView = view.findViewById<RecyclerView>(R.id.images_recycler_view)
+        recyclerView.adapter = viewAdapter
+        recyclerView.layoutManager = viewManager
+        recyclerView.setHasFixedSize(true)
+
+    }
+
 
     private fun fetchImages() {
 
-        ImagesApi().getImages(offset, args.CatId)
+       /* ImagesApi().getImages(offset, args.CatId)
             .enqueue(object : Callback<List<image>> {
                 override fun onFailure(call: Call<List<image>>, t: Throwable) {
                     refresh.isRefreshing = false
@@ -91,7 +111,7 @@ class ImageByCategory : Fragment(), ImageClickListener {
                     }
 
                 }
-            })
+            })*/
     }
 
 

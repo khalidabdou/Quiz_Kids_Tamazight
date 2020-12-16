@@ -20,7 +20,6 @@ import com.example.wallsticker.Adapters.QuotesAdapter
 
 import com.example.wallsticker.Interfaces.IncrementServiceQuote
 import com.example.wallsticker.Interfaces.QuoteClickListener
-import com.example.wallsticker.Interfaces.QuotesApiByCat
 import com.example.wallsticker.Model.quote
 import com.example.wallsticker.R
 import com.example.wallsticker.Utilities.*
@@ -158,7 +157,7 @@ class QuotesByCategory : Fragment(), QuoteClickListener {
 
     private fun fetchQuotes() {
 
-        QuotesApiByCat().getQuotes(offset, args.catId).enqueue(object : Callback<List<quote>> {
+       /* QuotesApiByCat().getQuotes(offset, args.catId).enqueue(object : Callback<List<quote>> {
             override fun onFailure(call: Call<List<quote>>, t: Throwable) {
                 refresh.isRefreshing = false
                 //Toast.makeText(context, t.message, Toast.LENGTH_LONG).show()
@@ -183,7 +182,7 @@ class QuotesByCategory : Fragment(), QuoteClickListener {
                 }
 
             }
-        })
+        })*/
     }
 
     //load Native Ad

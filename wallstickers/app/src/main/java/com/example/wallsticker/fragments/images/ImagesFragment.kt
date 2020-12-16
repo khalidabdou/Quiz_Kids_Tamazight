@@ -32,7 +32,6 @@ class ImagesFragment : Fragment(R.layout.fragment_images) {
         // LoginFragment is the name of Fragment and the Login
         // is a title of tab
 
-
         adapter.addFragment(ImgLatestFragment(), "Latest")
         adapter.addFragment(ImgCategoryFragment(), "Categories")
         adapter.addFragment(FavoriteImages(), "Favorites")
