@@ -85,7 +85,7 @@ class ImgLatestFragment : Fragment(), ImageClickListener {
         AdSettings.addTestDevice(resources.getString(R.string.addTestDevice))
         interstitialad = context?.let { interstitial(it) }!!
         interstitialad.loadInter()
-        Toast.makeText(context, Const.ImagesTemp.size.toString(), Toast.LENGTH_LONG).show()
+        //Toast.makeText(context, Const.ImagesTemp.size.toString(), Toast.LENGTH_LONG).show()
 
 
     }

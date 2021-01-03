@@ -33,6 +33,7 @@ import retrofit2.Response
 
 class QuotesLatest : Fragment(), QuoteClickListener {
 
+    private lateinit var internetCheck: InternetCheck
     private lateinit var clipboardManager: ClipboardManager
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>

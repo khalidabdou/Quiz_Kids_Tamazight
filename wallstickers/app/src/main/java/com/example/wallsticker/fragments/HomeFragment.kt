@@ -1,13 +1,18 @@
 package com.example.wallsticker.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +24,7 @@ import com.example.wallsticker.R
 import com.example.wallsticker.Repository.DataStoreRepository
 import com.example.wallsticker.Repository.QuotesRepo
 import com.example.wallsticker.Utilities.Const
+import com.example.wallsticker.Utilities.InternetCheck
 import com.example.wallsticker.ViewModel.QuotesViewModel
 import com.example.wallsticker.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -35,16 +41,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var lightMode: Switch
     val styles = arrayOf("Light", "Dark", "System default")
     var firstcheck :Boolean= false
+    private lateinit var internetCheck: InternetCheck
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var viewmodelQuotes: QuotesViewModel
 
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val quotesRepo= QuotesRepo()
         val viewModelFactory= ViewModelFactory(quotesRepo)
+
 
         initView(view)
         viewmodelQuotes= ViewModelProvider(this,viewModelFactory).get(QuotesViewModel::class.java)
@@ -134,6 +143,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         todyaQuote = view.findViewById(R.id.txt_today)
         shareTodayQuote = view.findViewById(R.id.share)
         lightMode = view.findViewById(R.id.modeChange)
+        internetCheck=InternetCheck()
 
     }
 
