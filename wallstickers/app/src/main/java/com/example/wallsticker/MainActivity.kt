@@ -22,9 +22,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
 import com.facebook.ads.*
 import com.google.android.material.navigation.NavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_main.*
 
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var navController: NavController

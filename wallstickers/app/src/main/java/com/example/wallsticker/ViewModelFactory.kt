@@ -13,10 +13,6 @@ class ViewModelFactory(private val repo:QuotesRepo):ViewModelProvider.Factory {
     }
 }
 
-class ImagesViewModelFactory(private val repo:ImagesRepo):ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return ImagesViewModel(repo) as T
-    }
-}
+
 
 

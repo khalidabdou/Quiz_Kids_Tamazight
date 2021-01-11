@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.wallsticker.Adapters.ImagesAdapter
-import com.example.wallsticker.ImagesViewModelFactory
 import com.example.wallsticker.Interfaces.ImageClickListener
 import com.example.wallsticker.Interfaces.ImagesApi
 import com.example.wallsticker.Model.category
@@ -23,25 +22,27 @@ import com.example.wallsticker.Model.image
 import com.example.wallsticker.R
 import com.example.wallsticker.Repository.ImagesRepo
 import com.example.wallsticker.Utilities.Const
+import com.example.wallsticker.Utilities.NetworkResults
 import com.example.wallsticker.Utilities.interstitial
 import com.example.wallsticker.ViewModel.ImagesViewModel
 import com.facebook.ads.AdSettings
+import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@AndroidEntryPoint
 class ImgLatestFragment : Fragment(), ImageClickListener {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var progressBar: ProgressBar
-    private var isLoading: Boolean = false
     lateinit var layoutManager: LinearLayoutManager
     private lateinit var refresh: SwipeRefreshLayout
     private lateinit var interstitialad: interstitial
     var offset: Int = 0
-    private lateinit var imagesViewMode : ImagesViewModel
+    private lateinit var imagesViewMode: ImagesViewModel
     //val progressBar: ProgressBar = this.progressBar2
 
 
@@ -57,22 +58,27 @@ class ImgLatestFragment : Fragment(), ImageClickListener {
 
         iniView(view)
         refresh.setOnRefreshListener {
-            refresh.isRefreshing=true
+            refresh.isRefreshing = true
             Const.ImagesTemp.clear()
-            imagesViewMode.getImages(offset,null)
+            imagesViewMode.getImages(offset, null)
         }
 
-        imagesViewMode.getImages(offset,null)
-        imagesViewMode.images.observe(viewLifecycleOwner, {images->
-            if (images.isSuccessful){
-                images.body()?.let {
-                    Const.ImagesTemp.addAll(it)
-                    viewAdapter.notifyItemInserted(Const.ImagesTemp.size - 1)
-                    progressBar.visibility = View.GONE
-                    refresh.isRefreshing=false
+        imagesViewMode.getImages(offset, null)
+        imagesViewMode.images.observe(viewLifecycleOwner, { images ->
+            when (images) {
+                is NetworkResults.Success -> {
+                    images.data?.let { Const.ImagesTemp.addAll(it) }
+                    viewAdapter.notifyDataSetChanged()
+                    refresh.isRefreshing = false
                 }
-            }else{
-                Toast.makeText(context, "Please Try Again", Toast.LENGTH_LONG).show()
+                is NetworkResults.Error -> {
+                    Toast.makeText(context, images.message.toString(), Toast.LENGTH_LONG).show()
+                    refresh.isRefreshing = false
+                }
+                is NetworkResults.Loading -> {
+                    progressBar.visibility = View.GONE
+                    refresh.isRefreshing = true
+                }
             }
         })
 
@@ -90,11 +96,9 @@ class ImgLatestFragment : Fragment(), ImageClickListener {
 
     }
 
-    private fun iniView(view: View){
+    private fun iniView(view: View) {
         //init ViewModel
-        val imagesRepo= ImagesRepo()
-        val imageviewModelFactory= ImagesViewModelFactory(imagesRepo)
-        imagesViewMode= ViewModelProvider(this,imageviewModelFactory).get(ImagesViewModel::class.java)
+        imagesViewMode = ViewModelProvider(requireActivity()).get(ImagesViewModel::class.java)
 
         viewManager = GridLayoutManager(activity, 3)
         layoutManager = LinearLayoutManager(activity)
@@ -138,7 +142,7 @@ class ImgLatestFragment : Fragment(), ImageClickListener {
                         offset += 30
                         progressBar.visibility = View.VISIBLE
                         //fetchImages()
-                        imagesViewMode.getImages(offset,null)
+                        imagesViewMode.getImages(offset, null)
                     }
                 }
             }

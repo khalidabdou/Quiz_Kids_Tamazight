@@ -4,9 +4,14 @@ import com.example.wallsticker.Model.category
 import com.example.wallsticker.Model.image
 import com.example.wallsticker.Model.quote
 import com.example.wallsticker.Retrofit.RetrofitInstance
+import com.example.wallsticker.data.RemoteDataSource
 import retrofit2.Response
+import javax.inject.Inject
 
-class ImagesRepo {
+class ImagesRepo @Inject constructor(
+    remoteDataSource: RemoteDataSource
+){
+    val remot=remoteDataSource
 
     //this for categories Images
     suspend fun getImagescategories(): Response<List<category>> {

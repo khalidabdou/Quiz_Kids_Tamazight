@@ -7,7 +7,9 @@ import androidx.viewpager.widget.ViewPager
 import com.example.wallsticker.Adapters.ImgPagerAdapter
 import com.example.wallsticker.R
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ImagesFragment : Fragment(R.layout.fragment_images) {
 
 

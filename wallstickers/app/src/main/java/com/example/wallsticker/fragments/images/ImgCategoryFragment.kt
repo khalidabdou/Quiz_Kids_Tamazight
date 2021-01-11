@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.wallsticker.Adapters.CategoryAdapter
-import com.example.wallsticker.ImagesViewModelFactory
 import com.example.wallsticker.Interfaces.ImageClickListener
 import com.example.wallsticker.MainViewModel
 import com.example.wallsticker.Model.category
@@ -22,7 +22,6 @@ import com.example.wallsticker.Repository.ImagesRepo
 import com.example.wallsticker.Repository.QuotesRepo
 import com.example.wallsticker.Utilities.Const
 import com.example.wallsticker.ViewModel.ImagesViewModel
-import com.example.wallsticker.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_img_category.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -55,30 +54,15 @@ class ImgCategoryFragment : Fragment(), ImageClickListener {
 
         if (Const.CatImages.size <= 0) {
             refresh.isRefreshing = true
-            fetchCategories()
+            //fetchCategories()
         }
 
-        imagesViewMode.getImagesCategories()
-        imagesViewMode.imagesCategories.observe(viewLifecycleOwner,  { response->
-            if(response.isSuccessful){
-                refresh.isRefreshing=false
-                //Toast.makeText(context, "success", Toast.LENGTH_SHORT).show()
-                response.body()?.let {
-                    Const.CatImages.clear()
-                    Const.CatImages.addAll(it)
-                    viewAdapter.notifyDataSetChanged()
-                }
-            }else {
-                Toast.makeText(context, "Please Try Again", Toast.LENGTH_SHORT).show()
-            }
-        })
+
     }
 
 
     private fun initView(view: View){
-        val imagesRepo= ImagesRepo()
-        val imageviewModelFactory= ImagesViewModelFactory(imagesRepo)
-        imagesViewMode=ViewModelProvider(this,imageviewModelFactory).get(ImagesViewModel::class.java)
+        imagesViewMode=ViewModelProvider(requireActivity()).get(ImagesViewModel::class.java)
 
         viewManager = GridLayoutManager(activity, 1)
         refresh = view.findViewById(R.id.refreshLayout)

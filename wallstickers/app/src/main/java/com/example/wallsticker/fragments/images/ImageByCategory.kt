@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.wallsticker.Adapters.ImagesAdapter
-import com.example.wallsticker.ImagesViewModelFactory
 import com.example.wallsticker.Interfaces.ImageClickListener
 import com.example.wallsticker.Interfaces.ImagesApi
 import com.example.wallsticker.Model.category
@@ -60,18 +59,17 @@ class ImageByCategory : Fragment(), ImageClickListener {
         recyclerView.adapter = viewAdapter
         recyclerView.layoutManager = viewManager
         recyclerView.setHasFixedSize(true)
-        addScrollerListener()
+        //addScrollerListener()
         if (Const.ImagesByCatTemp.size <= 0) {
             refresh.isRefreshing = true
-            fetchImages()
+            //fetchImages()
         }
 
     }
 
     private fun iniView(view: View){
-        //init ViewModel
-        val imagesRepo= ImagesRepo()
-        val imageviewModelFactory= ImagesViewModelFactory(imagesRepo)
+
+
         //imagesViewMode= ViewModelProvider(this,imageviewModelFactory).get(ImagesViewModel::class.java)
 
         viewManager = GridLayoutManager(activity, 3)

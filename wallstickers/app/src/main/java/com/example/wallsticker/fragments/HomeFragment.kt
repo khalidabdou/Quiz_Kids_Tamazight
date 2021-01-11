@@ -59,7 +59,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewmodelQuotes= ViewModelProvider(this,viewModelFactory).get(QuotesViewModel::class.java)
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
-        if (Const.QuotesTemp.size<=0)
+        if (Const.QuotesTemp.size<=0 )
         viewmodelQuotes.getLatestQuotes(0,null)
 
 
