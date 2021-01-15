@@ -38,6 +38,10 @@ class Const {
         var QuotesTempFav = arrayListOf<Any>()
         var QuotesByCat = arrayListOf<Any>()
         var QuotesCategories = arrayListOf<category>()
+
+        //Room database
+        const val DATABASE_NAME="MY_DB"
+        const val TABLE_IMAGE="tbl_images"
     }
 
 

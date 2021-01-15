@@ -12,4 +12,6 @@ class RemoteDataSource @Inject constructor(
     suspend fun getImages(offset:Int,id:Int?): Response<List<image>> {
         return  imagesApi.getImages(offset,id)
     }
+
+
 }

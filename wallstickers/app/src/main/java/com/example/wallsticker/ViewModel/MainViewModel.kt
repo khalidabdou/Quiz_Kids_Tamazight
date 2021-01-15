@@ -1,4 +1,4 @@
-package com.example.wallsticker
+package com.example.wallsticker.ViewModel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -17,4 +17,6 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun saveToDataStore(myName: String) = viewModelScope.launch(Dispatchers.IO) {
         repository.saveToDataStore(myName)
     }
+
+
 }

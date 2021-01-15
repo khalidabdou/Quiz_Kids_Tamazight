@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,18 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.wallsticker.Adapters.CategoryAdapter
 import com.example.wallsticker.Interfaces.ImageClickListener
-import com.example.wallsticker.MainViewModel
 import com.example.wallsticker.Model.category
 import com.example.wallsticker.Model.image
 import com.example.wallsticker.R
-import com.example.wallsticker.Repository.ImagesRepo
-import com.example.wallsticker.Repository.QuotesRepo
 import com.example.wallsticker.Utilities.Const
 import com.example.wallsticker.ViewModel.ImagesViewModel
 import kotlinx.android.synthetic.main.fragment_img_category.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ImgCategoryFragment : Fragment(), ImageClickListener {
 

@@ -1,36 +1,26 @@
 package com.example.wallsticker.fragments
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.example.wallsticker.Interfaces.QuotesApi
-import com.example.wallsticker.MainViewModel
+import com.example.wallsticker.ViewModel.MainViewModel
 import com.example.wallsticker.Model.quote
 import com.example.wallsticker.R
-import com.example.wallsticker.Repository.DataStoreRepository
 import com.example.wallsticker.Repository.QuotesRepo
 import com.example.wallsticker.Utilities.Const
 import com.example.wallsticker.Utilities.InternetCheck
 import com.example.wallsticker.ViewModel.QuotesViewModel
 import com.example.wallsticker.ViewModelFactory
 import kotlinx.android.synthetic.main.fragment_home.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
