@@ -1,0 +1,403 @@
+[
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⴰⵎⵣⵣⵓⵖ.",
+    "answer": "ear",
+    "answer1": "hand",
+    "answer2": "ear",
+    "answer3": "head",
+    "answer4": "eye"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⵉⵎⵉ ?",
+    "answer": "mouth",
+    "answer1": "hand",
+    "answer2": "eye",
+    "answer3": "mouth",
+    "answer4": "ear"
+  },
+  {
+    "question": "ⴰⴷ ⵙⵜⵉⵖ ⵜⵉⵟⵟ ⴳⵔ ⵜⵡⵍⴰⴼⵉⵏ ⴰⴷ.",
+    "answer": "eye",
+    "answer1": "eye",
+    "answer2": "mouth",
+    "answer3": "ear",
+    "answer4": "hand"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⴰⴼⵓⵙ ?",
+    "answer": "hand",
+    "answer1": "ear",
+    "answer2": "eye",
+    "answer3": "head",
+    "answer4": "hand"
+  },
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⵜⵉⵏⵅⴰⵔ .",
+    "answer": "nose",
+    "answer1": "ear",
+    "answer2": "head",
+    "answer3": "nose",
+    "answer4": "hand"
+  },
+  {
+    "question": "ⴰⴷ ⵙⵉⴳⴳⵍⵖ ⵉⵅⴼ ⴳⵔ ⵜⵡⵍⴰⴼⵉⵏ ⴰⴷ .",
+    "answer": "head",
+    "answer1": "head",
+    "answer2": "hand",
+    "answer3": "eye",
+    "answer4": "ear"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⴰⵣⵣⴰⵔ ?",
+    "answer": "hair",
+    "answer1": "hand",
+    "answer2": "eye",
+    "answer3": "ear",
+    "answer4": "hair"
+  },
+  {
+    "question": "ⵙⵜⵉ ⴰⴹⴰⵕ ⴳ ⵜⵡⵍⴰⴼⵉⵏ ⴰⴷ .",
+    "answer": "foot",
+    "answer1": "eye",
+    "answer2": "ear",
+    "answer3": "foot",
+    "answer4": "hand"
+  },
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⵉⴹⵓⴹⴰⵏ .",
+    "answer": "fingers",
+    "answer1": "foot",
+    "answer2": "fingers",
+    "answer3": "eye",
+    "answer4": "ear"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⵉⵍⵙ ?",
+    "answer": "tongue",
+    "answer1": "eye",
+    "answer2": "tongue",
+    "answer3": "ear",
+    "answer4": "foot"
+  },
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⵓⵛⵛⵏ.",
+    "answer": "fox",
+    "answer1": "cat",
+    "answer2": "dog",
+    "answer3": "fox",
+    "answer4": "cow"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⵉⵏⵙⵉ ⴳ ⵜⵡⵍⴰⴼⵉⵏ ⴰⴷ ?",
+    "answer": "urchin",
+    "answer1": "dog",
+    "answer2": "fox",
+    "answer3": "urchin",
+    "answer4": "cat"
+  },
+  {
+    "question": "ⵙⵜⵉ ⵜⴰⴼⵓⵏⴰⵙⵜ .",
+    "answer": "cow",
+    "answer1": "cat",
+    "answer2": "fox",
+    "answer3": "cow",
+    "answer4": "dog"
+  },
+  {
+    "question": "ⵎⴰⵖ ⵜⵍⵍⴰ ⵜⴼⵓⵍⵍⵓⵙⵜ ⴳ ⵜⵡⵍⴰⴼⵉⵏ ⴰⴷ ?",
+    "answer": "hen",
+    "answer1": "hen",
+    "answer2": "cat",
+    "answer3": "dog",
+    "answer4": "fox"
+  },
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⴰⵢⴷⵉ .",
+    "answer": "dog",
+    "answer1": "cat",
+    "answer2": "chiken",
+    "answer3": "fox",
+    "answer4": "dog"
+  },
+  {
+    "question": "ⵎⵍ ⴰⵢⵢⵉⵙ ⵎⴰⵖ ⵉⵍⵍⴰ .",
+    "answer": "horse",
+    "answer1": "fox",
+    "answer2": "dog",
+    "answer3": "horse",
+    "answer4": "cat"
+  },
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⵉⵣⵉⵎⵎⵔ .",
+    "answer": "sheep",
+    "answer1": "sheep",
+    "answer2": "cat",
+    "answer3": "dog",
+    "answer4": "fox"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⴰⵡⵜⵉⵍ ?",
+    "answer": "rabbit",
+    "answer1": "horse",
+    "answer2": "dog",
+    "answer3": "fox",
+    "answer4": "sheep"
+  },
+  {
+    "question": "ⵙⵜⵉ ⴰⵔⴰⵎ ?",
+    "answer": "camel",
+    "answer1": "cat",
+    "answer2": "dog",
+    "answer3": "camel",
+    "answer4": "fox"
+  },
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⵉⵣⵎ.",
+    "answer": "lion",
+    "answer1": "lion",
+    "answer2": "cat",
+    "answer3": "dog",
+    "answer4": "camel"
+  },
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⴰⴽⵍⵓ ⵓⵎⵍⵉⵍ .",
+    "answer": "white",
+    "answer1": "red",
+    "answer2": "black",
+    "answer3": "white",
+    "answer4": "green"
+  },
+  {
+    "question": "ⵙⵜⵉ ⴰⴽⵍⵓ ⴰⵙⴳⴳⴰⵏ / ⴰⴱⵔⴽⴰⵏ .",
+    "answer": "back",
+    "answer1": "red",
+    "answer2": "white",
+    "answer3": "green",
+    "answer4": "black"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⴰⴽⵍⵓ ⴰⵣⴳⴳⵯⴰⵖ .",
+    "answer": "red",
+    "answer1": "white",
+    "answer2": "red",
+    "answer3": "black",
+    "answer4": "green"
+  },
+  {
+    "question": "ⵎⵍ ⴰⴽⵍⵓ ⴰⵡⵔⴰⵖ ⵎⴰⵖ ⵉⵍⵍⴰ .",
+    "answer": "yellow",
+    "answer1": "yellow",
+    "answer2": "red",
+    "answer3": "black",
+    "answer4": "brown"
+  },
+  {
+    "question": "ⴰⴷ ⵙⵉⴳⴳⵍⵖ ⴰⴽⵍⵓ ⴰⴷⵎⵎⴰⵏ.",
+    "answer": "brown",
+    "answer1": "red",
+    "answer2": "yellow",
+    "answer3": "brown",
+    "answer4": "white"
+  },
+  {
+    "question": "ⴰⴼ ⴰⴽⵍⵓ ⴰⵣⴳⵣⴰ.",
+    "answer": "green",
+    "answer1": "green",
+    "answer2": "pink",
+    "answer3": "red",
+    "answer4": "black"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⴰⵣⵡⴰⵡⴰⵖ ⴳⵔ ⵓⴽⵍⴰⵏ ⴰⴷ ?",
+    "answer": "pink",
+    "answer1": "green",
+    "answer2": "red",
+    "answer3": "pink",
+    "answer4": "white"
+  },
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⴰⴽⵍⵓ ⴰⵏⵉⵍⵉ .",
+    "answer": "blue",
+    "answer1": "red",
+    "answer2": "pink",
+    "answer3": "yellow",
+    "answer4": "blue"
+  },
+  {
+    "question": "ⵙⵜⵉ ⴰⴽⵍⵓ ⴰⵎⴽⵥⴰⵢ .",
+    "answer": "purple",
+    "answer1": "purple",
+    "answer2": "red",
+    "answer3": "black",
+    "answer4": "pink"
+  },
+  {
+    "question": "ⴰⴷ ⵎⵍⵖ ⴰⴽⵍⵓ ⴰⵍⵜⵛⵉⵏⵉ.",
+    "answer": "orange",
+    "answer1": "red",
+    "answer2": "purple",
+    "answer3": "orange",
+    "answer4": "black"
+  },
+  {
+    "question": "ⴰⴼ ⴰⵜⴰⴼⵉⵔⴰⵙⵜ ⴳⵔ ⵉⴳⵓⵎⵎⴰ ⴰⴷ.",
+    "answer": "pear",
+    "answer1": "orange",
+    "answer2": "apple",
+    "answer3": "grape",
+    "answer4": "pear"
+  },
+  {
+    "question": "ⵙⵜⵉ ⴰⴹⵉⵍ ⴳⵔ ⵉⴳⵓⵎⵎⴰ ⴰⴷ .",
+    "answer": "grape",
+    "answer1": "apple",
+    "answer2": "orange",
+    "answer3": "banana",
+    "answer4": "grape"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⵜⴰⴱⴰⵏⴰⵏⵜ/ⵜⴰⵖⵔⴰⴳⴳⴰⵏⵜ ? ",
+    "answer": "banana",
+    "answer1": "banana",
+    "answer2": "apple",
+    "answer3": "grape",
+    "answer4": "orange"
+  },
+  {
+    "question": "ⴰⴷ ⵎⵍⵖ ⵜⴰⵍⵉⵜⵛⵉⵏⵜ ⵎⴰⴳ ⵜⵍⵍⴰ .",
+    "answer": "orange",
+    "answer1": "banana",
+    "answer2": "orange",
+    "answer3": "apple",
+    "answer4": "pear"
+  },
+  {
+    "question": "ⴰⴷ ⵙⵉⴳⴳⵍⵖ ⵜⴰⵕⵕⵎⵎⴰⵏⵜ.",
+    "answer": "pomegranate",
+    "answer1": "pear",
+    "answer2": "grape",
+    "answer3": "pomegranate",
+    "answer4": "apple"
+  },
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⵜⴰⵥⴰⵍⵉⵎⵜ .",
+    "answer": "onion",
+    "answer1": "tomato",
+    "answer2": "potato",
+    "answer3": "onion",
+    "answer4": "carrot"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⵜⴰⵅⵉⵣⵣⵓⵜ?",
+    "answer": "carrot",
+    "answer1": "carrot",
+    "answer2": "onion",
+    "answer3": "tomato",
+    "answer4": "potato"
+  },
+  {
+    "question": "ⴰⴷ ⵙⵉⴳⴳⵍⵖ ⵜⴰⴱⴰⵟⴰⵟⵜ",
+    "answer": "potato",
+    "answer1": "onion ",
+    "answer2": "carrot",
+    "answer3": "potato",
+    "answer4": "tomato"
+  },
+  {
+    "question": "ⴰⴷ ⵎⵍⵖ ⵜⴰⵔⴽⴽⵉⵎⵜ .",
+    "answer": "turnip",
+    "answer1": "onion ",
+    "answer2": "carrot",
+    "answer3": "tomato",
+    "answer4": "turnip"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⵜⴰⵎⵉⵟⴰⵛⵜ?",
+    "answer": "tomato",
+    "answer1": "tomato",
+    "answer2": "turnip",
+    "answer3": "onion",
+    "answer4": "carrot"
+  },
+
+  {
+    "question": "ⴰⴼ ⴰⵜⴰⴼⵉⵔⴰⵙⵜ ⴳⵔ ⵉⴳⵓⵎⵎⴰ ⴰⴷ.",
+    "answer": "pear",
+    "answer1": "orange",
+    "answer2": "apple",
+    "answer3": "grape",
+    "answer4": "pear"
+  },
+  {
+    "question": "ⵙⵜⵉ ⴰⴹⵉⵍ ⴳⵔ ⵉⴳⵓⵎⵎⴰ ⴰⴷ .",
+    "answer": "grape",
+    "answer1": "apple",
+    "answer2": "orange",
+    "answer3": "banana",
+    "answer4": "grape"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⵜⴰⴱⴰⵏⴰⵏⵜ/ⵜⴰⵖⵔⴰⴳⴳⴰⵏⵜ ? ",
+    "answer": "banana",
+    "answer1": "banana",
+    "answer2": "apple",
+    "answer3": "grape",
+    "answer4": "orange"
+  },
+  {
+    "question": "ⴰⴷ ⵎⵍⵖ ⵜⴰⵍⵉⵜⵛⵉⵏⵜ ⵎⴰⴳ ⵜⵍⵍⴰ .",
+    "answer": "orange",
+    "answer1": "banana",
+    "answer2": "orange",
+    "answer3": "apple",
+    "answer4": "pear"
+  },
+  {
+    "question": "ⴰⴷ ⵙⵉⴳⴳⵍⵖ ⵜⴰⵕⵕⵎⵎⴰⵏⵜ.",
+    "answer": "pomegranate",
+    "answer1": "pear",
+    "answer2": "grape",
+    "answer3": "pomegranate",
+    "answer4": "apple"
+  },
+  {
+    "question": "ⴰⴷ ⴰⴼⵖ ⵜⴰⵥⴰⵍⵉⵎⵜ .",
+    "answer": "onion",
+    "answer1": "tomato",
+    "answer2": "potato",
+    "answer3": "onion",
+    "answer4": "carrot"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⵜⴰⵅⵉⵣⵣⵓⵜ?",
+    "answer": "carrot",
+    "answer1": "carrot",
+    "answer2": "onion",
+    "answer3": "tomato",
+    "answer4": "potato"
+  },
+  {
+    "question": "ⴰⴷ ⵙⵉⴳⴳⵍⵖ ⵜⴰⴱⴰⵟⴰⵟⵜ",
+    "answer": "potato",
+    "answer1": "onion ",
+    "answer2": "carrot",
+    "answer3": "potato",
+    "answer4": "tomato"
+  },
+  {
+    "question": "ⴰⴷ ⵎⵍⵖ ⵜⴰⵔⴽⴽⵉⵎⵜ .",
+    "answer": "turnip",
+    "answer1": "onion ",
+    "answer2": "carrot",
+    "answer3": "tomato",
+    "answer4": "turnip"
+  },
+  {
+    "question": "ⵎⴰⵏⵣⴰ ⵜⴰⵎⵉⵟⴰⵛⵜ?",
+    "answer": "tomato",
+    "answer1": "tomato",
+    "answer2": "turnip",
+    "answer3": "onion",
+    "answer4": "carrot"
+  }
+]

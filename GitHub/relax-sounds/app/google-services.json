@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1012822420592",
+    "project_id": "sleep-app-f7528",
+    "storage_bucket": "sleep-app-f7528.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012822420592:android:3e9aae8913a4d6adbb98b5",
+        "android_client_info": {
+          "package_name": "com.maker.sleepsounds"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012822420592-c0hmm37jctiuoqc0vtumoaqlmahr73pi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maker.sleepsounds",
+            "certificate_hash": "25900f8ab3b81a83119b69048bdcafa6d349bbdb"
+          }
+        },
+        {
+          "client_id": "1012822420592-s0c1me0k5lvr6f1q99g820c5n0vbalse.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1KQ9XqpSj0tWESkkwKUJnuYAqu4sWuVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012822420592-s0c1me0k5lvr6f1q99g820c5n0vbalse.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
